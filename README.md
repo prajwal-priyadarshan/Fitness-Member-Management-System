@@ -112,6 +112,6 @@ Copy your **MongoDB connection string** and update it inside `app.py`. 🔗
 
 ## 🎯 Explore the Features of Our Application! 😁
 
----
+![image](https://github.com/user-attachments/assets/0d163f37-7981-4712-a33f-5fa558b4f3f7)
+![image](https://github.com/user-attachments/assets/2c542dd4-ee35-4f46-8304-1df701014bcd)
 
-Would you also like me to show a slightly more styled version using GitHub **task lists**, **badges**, or **collapsible sections**? 🚀

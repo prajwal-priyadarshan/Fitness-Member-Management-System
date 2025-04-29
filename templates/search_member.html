@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Member | FitTrack Admin</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    :root {
+      --primary-color: rgba(71, 86, 84, 0.75);
+      --secondary-color:  rgba(71, 86, 84, 0.75);
+      --accent-color:  rgba(71, 86, 84, 0.75);
+      --success-color: rgba(71, 86, 84, 0.75);
+      --warning-color: rgba(71, 86, 84, 0.75);
+      --error-color:  rgba(71, 86, 84, 0.75);
+      --light-gray:  rgba(71, 86, 84, 0.75);
+      --border-color: #e1e5eb;
+      --text-color: #333;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: #f9f9f9;
+      color: var(--text-color);
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 30px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    h2 {
+      color: var(--primary-color);
+      margin-bottom: 25px;
+      font-weight: 600;
+      text-align: center;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    h2:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70px;
+      height: 3px;
+      background-color: var(--primary-color);
+      border-radius: 2px;
+    }
+
+    h3 {
+      color: #444;
+      margin-top: 25px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    form {
+      display: flex;
+      gap: 10px;
+      margin: 25px 0;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 12px 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      font-size: 16px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+    }
+
+    button[type="submit"] {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      white-space: nowrap;
+    }
+
+    button[type="submit"]:hover {
+      background-color: var(--secondary-color);
+    }
+
+    button[type="submit"]:active {
+      transform: translateY(1px);
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+    }
+
+    li {
+      padding: 15px;
+      margin-bottom: 15px;
+      background-color: var(--light-gray);
+      border-radius: 5px;
+      border-left: 4px solid var(--primary-color);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    li:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    li strong {
+      font-size: 1.1em;
+      color: var(--primary-color);
+    }
+
+    .no-results {
+      background-color: rgba(243, 156, 18, 0.1);
+      padding: 15px;
+      border-left: 4px solid var(--warning-color);
+      border-radius: 5px;
+      margin: 25px 0;
+      color: #7f8c8d;
+      text-align: center;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 10px 20px;
+      background-color: #f5f5f5;
+      color: #444;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .back-link:hover {
+      background-color: #e0e0e0;
+    }
+
+    .search-icon {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      margin-right: 5px;
+      position: relative;
+      top: 2px;
+    }
+
+    .search-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .search-count {
+      font-size: 0.9em;
+      color: #7f8c8d;
+    }
+
+    @media (max-width: 767px) {
+      .container {
+        padding: 20px 15px;
+      }
+
+      h2 {
+        font-size: 1.4em;
+      }
+
+      form {
+        flex-direction: column;
+      }
+
+      button[type="submit"] {
+        width: 100%;
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Search Member</h2>
+    
+    <form method="GET" action="{{ url_for('search_member') }}">
+      <input type="text" name="query" placeholder="Enter name, email or ID" value="{{ query }}" autofocus>
+      <button type="submit">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        Search
+      </button>
+    </form>
+
+    {% if members %}
+    <div class="search-header">
+      <h3>Results</h3>
+      <span class="search-count">{{ members|length }} member(s) found</span>
+    </div>
+    <ul>
+      {% for member in members %}
+      <li>
+        <strong>{{ member.name }}</strong><br>
+        <span style="color: #666;">{{ member.email }}</span><br>
+        Phone: {{ member.phone }}
+      </li>
+      {% endfor %}
+    </ul>
+    {% elif query %}
+    <div class="no-results">
+      <p>No results found for "{{ query }}"</p>
+    </div>
+    {% endif %}
+
+    <div style="text-align: center;">
+      <a href="{{ url_for('admin_dashboard') }}" class="back-link">← Back to Dashboard</a>
+    </div>
+  </div>
+</body>
+</html>

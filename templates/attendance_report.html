@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Attendance Report | FitTrack Admin</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Attendance Report</h1>
+
+    <!-- Filter/Search Form -->
+    <form method="GET" action="{{ url_for('attendance_report') }}">
+      <label for="email">Search by Member Email:</label>
+      <input type="email" name="email" placeholder="e.g. john@example.com">
+
+      <label for="date">Or by Date:</label>
+      <input type="date" name="date">
+
+      <input type="submit" value="Generate Report">
+    </form>
+
+    <!-- Attendance Table -->
+    {% if attendance_records %}
+      <h2>Report Results</h2>
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Member Email</th>
+            <th>Check-In</th>
+            <th>Check-Out</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for record in attendance_records %}
+            <tr>
+              <td>{{ record.date }}</td>
+              <td>{{ record.member_email }}</td>
+              <td>{{ record.check_in }}</td>
+              <td>{{ record.check_out or "N/A" }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% elif request.args %}
+      <p>No records found for the given filters.</p>
+    {% endif %}
+
+    <p style="text-align: center; margin-top: 20px;">
+      <a href="{{ url_for('admin_dashboard') }}">← Back to Dashboard</a>
+    </p>
+  </div>
+</body>
+</html>

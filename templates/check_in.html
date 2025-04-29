@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Check In</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Check In</h1>
+
+    <form method="POST" action="{{ url_for('check_in') }}">
+      <p>Click the button below to check in.</p>
+      <button type="submit">Check In Now</button>
+    </form>
+    <p style="text-align: center; margin-top: 20px;">
+      <a href="{{ url_for('member_dashboard') }}">← Back to Dashboard</a>
+    </p>
+  </div>
+</body>
+</html>

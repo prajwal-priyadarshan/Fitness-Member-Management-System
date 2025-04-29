@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Attendance | FitTrack Member</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>My Attendance</h1>
+
+    <!-- Check-in / Check-out Form -->
+    <form method="POST" action="{{ url_for('member_attendance') }}">
+      {% if not today_checked_in %}
+        <input type="hidden" name="action" value="checkin">
+        <input type="submit" value="Check In">
+      {% elif not today_checked_out %}
+        <input type="hidden" name="action" value="checkout">
+        <input type="submit" value="Check Out">
+      {% else %}
+        <p>You have already checked in and out today ✅</p>
+      {% endif %}
+    </form>
+
+    <h2 style="margin-top: 40px;">My Attendance History</h2>
+    {% if attendance_records %}
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Check In</th>
+            <th>Check Out</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for record in attendance_records %}
+            <tr>
+              <td>{{ record.date }}</td>
+              <td>{{ record.check_in }}</td>
+              <td>{{ record.check_out or '—' }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No attendance records yet.</p>
+    {% endif %}
+
+    <p style="text-align: center; margin-top: 20px;">
+      <a href="{{ url_for('member_dashboard') }}">← Back to Dashboard</a>
+    </p>
+  </div>
+</body>
+</html>

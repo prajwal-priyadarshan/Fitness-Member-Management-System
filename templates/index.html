@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Fitness Management System</title>
+  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
+  <style> 
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      background-image: url("{{ url_for('static', filename='images/gym.jpg') }}");
+      /* background-image: url("E:/S2/JAVA/DSA & JAVA Final UI/static/images/gym.jpg"); */
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    section {
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 95vh;
+    }
+
+    header,
+    footer {
+      background-color: rgba(71, 86, 84, 0.75);
+      /* background-color: rgba(83, 64, 48, 0.75); */
+      /* color: black; */
+      color: white;
+      width: 100%;
+      position: fixed;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      font-weight: bold;
+    }
+
+    header {
+      top: 0;
+      font-size: 1.4em;
+      padding: 0px;
+    }
+
+    footer {
+      bottom: 0;
+      font-size: 1.2em;
+      padding: 18px 0px;
+    }
+
+    nav {
+      background-color: rgba(71, 86, 84, 0.6);
+      /* background-color: rgba(83, 64, 48, 0.6); */
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      top: 0;
+      margin-top: 127px;
+      padding: 15px 0px;
+    }
+
+    ul {
+      display: flex;
+      list-style: none;
+    }
+
+    a {
+      text-decoration: none;
+      font-weight: 500;
+      /* color: black; */
+      color: white;
+      margin: 10px 12px;
+      font-size: 1.4em;
+      font-weight: bold;
+    }
+
+    li a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- <video autoplay loop muted playsinline>
+    <source src="E:/S2/JAVA/DSA & JAVA Final UI/static/videos/one.mp4" type="video/mp4">
+  </video> -->
+
+  <!-- <video autoplay loop muted playsinline>
+    <source src="{{ url_for('static', filename='videos/one.mp4') }}" type="video/mp4">
+  </video> -->
+
+  <header>
+    <h1>Welcome to FitTrack</h1>
+    <p style="text-align: center; margin-bottom: 20px;">Manage your fitness journey effortlessly.</p>
+  </header>
+  <nav>
+    <ul>
+      <li> <a href="{{ url_for('admin_login') }}"> Admin Login </a> </li>
+      <li> <a href="{{ url_for('member_login') }}"> Member Login </a> </li>
+      <li> <a href="{{ url_for('signup') }}"> Member Signup</a> </li>
+    </ul>
+  </nav>
+  <section>
+
+  </section>
+  <footer>
+    <h2>By Team-8 Batch-C</h2>
+  </footer>
+</body>
+
+</html>

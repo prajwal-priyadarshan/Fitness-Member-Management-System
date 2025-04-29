@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Payments | FitTrack Member</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>My Payment Details</h1>
+
+    <!-- Current Membership Info -->
+    {% if current_membership %}
+      <div class="card">
+        <p><strong>Membership Type:</strong> {{ current_membership.type }}</p>
+        <p><strong>Status:</strong> {{ current_membership.status }}</p>
+        <p><strong>Next Due Date:</strong> {{ current_membership.next_due }}</p>
+      </div>
+    {% else %}
+      <p>You don't have an active membership yet.</p>
+    {% endif %}
+
+    <!-- Submit Payment -->
+    <h2 style="margin-top: 40px;">Submit New Payment</h2>
+    <form action="{{ url_for('member_payment') }}" method="POST">
+      <label for="membership_type">Membership Type:</label>
+      <select name="membership_type" required>
+        <option value="Monthly">Monthly - ₹999</option>
+        <option value="Quarterly">Quarterly - ₹2699</option>
+        <option value="Annual">Annual - ₹9999</option>
+      </select>
+
+      <label for="amount">Amount (INR):</label>
+      <input type="number" name="amount" required placeholder="Enter amount">
+
+      <input type="submit" value="Submit Payment">
+    </form>
+
+    <!-- View History -->
+    <p style="text-align: center; margin-top: 30px;">
+      <a href="{{ url_for('member_payment_history') }}">View My Payment History →</a><br>
+      <a href="{{ url_for('member_dashboard') }}">← Back to Dashboard</a>
+    </p>
+  </div>
+</body>
+</html>

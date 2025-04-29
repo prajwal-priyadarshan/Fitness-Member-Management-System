@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Check-In Records</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        th {
+            padding: 10px;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .container {
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+        th:nth-child(even){
+            width: 190px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Member Check-In Records</h2>
+        <table border="1">
+            <tr>
+                <th>Member Name</th>
+                <th>Check-In Time</th>
+            </tr>
+            {% for entry in checkins %}
+            <tr>
+                <td>{{ members[entry.member_id] }}</td>
+                <td>{{ entry.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br>
+        <a href="{{ url_for('admin_dashboard') }}">← Back to Dashboard</a>
+    </div>
+</body>
+</html>

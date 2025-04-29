@@ -1,0 +1,429 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Assign Workout | FitTrack Admin</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      border-radius: 8px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      margin-bottom: 5px;
+    }
+    .form-group input,
+    .form-group textarea {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      width: 100%;
+    }
+    .days-container {
+      display: flex;
+      gap: 20px;
+    }
+    .days-division {
+      flex: 1;
+    }
+    .submit-button {
+      margin-top: 20px;
+    }
+    .back-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .back-link a {
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: bold;
+    }
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <br>
+    <br>
+    
+    <h1>Assign Workout Plan</h1>
+
+    <form action="{{ url_for('assign_workout') }}" method="POST">
+      <div class="form-group">
+        <label for="member_email">Member Email:</label>
+        <input type="email" name="member_email" placeholder="e.g. john@example.com" required>
+      </div>
+
+      <div class="days-container">
+        <div class="days-division">
+          {% for day in ['Monday', 'Tuesday', 'Wednesday'] %}
+            <div class="form-group">
+              <label for="{{ day }}">{{ day }}:</label>
+              <input type="text" name="schedule[{{ day }}]" placeholder="e.g. Chest & Triceps - Bench, Pushups">
+            </div>
+          {% endfor %}
+        </div>
+        <div class="days-division">
+          {% for day in ['Thursday', 'Friday', 'Saturday', 'Sunday'] %}
+            <div class="form-group">
+              <label for="{{ day }}">{{ day }}:</label>
+              <input type="text" name="schedule[{{ day }}]" placeholder="e.g. Chest & Triceps - Bench, Pushups">
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="notes">Additional Notes:</label>
+        <textarea name="notes" rows="4" placeholder="Any custom instructions..."></textarea>
+      </div>
+
+      <div class="submit-button">
+        <input type="submit" value="Assign Workout">
+      </div>
+    </form>
+
+    <div class="back-link">
+      <a href="{{ url_for('admin_dashboard') }}">← Back to Dashboard</a>
+    </div>
+  </div>
+</body>
+</html> --><!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assign Workout | FitTrack Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+      :root {
+        --primary-color:rgba(71, 86, 84, 0.75);
+        --secondary-color: rgba(71, 86, 84, 0.75);
+        --light-gray: #f5f7fa;
+        --border-color: #e1e5eb;
+        --text-color: #333;
+        --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+  
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+  
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.3;
+        background-color: #f9f9f9;
+        color: var(--text-color);
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        height: 100vh;
+        overflow: hidden;
+        padding: 5px;
+      }
+  
+      .container {
+        width: 90%;
+        max-width: 800px;
+        height: calc(100vh - 10px);
+        background-color: white;
+        border-radius: 6px;
+        box-shadow: var(--shadow);
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+  
+      h1 {
+        color: var(--primary-color);
+        font-weight: 600;
+        font-size: 1.4em;
+        text-align: center;
+        padding-bottom: 6px;
+        position: relative;
+        margin-bottom: 8px;
+      }
+  
+      h1:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 2px;
+        background-color: var(--primary-color);
+        border-radius: 1px;
+      }
+  
+      form {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+  
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 6px;
+      }
+  
+      .form-group label {
+        font-weight: 500;
+        font-size: 0.85em;
+        color: var(--text-color);
+        margin-bottom: 2px;
+      }
+  
+      .form-group input,
+      .form-group textarea {
+        padding: 6px;
+        border: 1px solid var(--border-color);
+        border-radius: 3px;
+        width: 100%;
+        font-size: 0.8em;
+        transition: border-color 0.3s ease;
+      }
+  
+      .form-group textarea {
+        resize: none;
+      }
+  
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 3px rgba(52, 152, 219, 0.3);
+      }
+  
+      .days-container {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 6px;
+        flex-wrap: wrap;
+        flex: 1;
+        overflow: hidden;
+      }
+  
+      .days-division {
+        flex: 1;
+        min-width: 180px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+  
+      .submit-button {
+        text-align: center;
+        margin-top: 6px;
+      }
+  
+      .submit-button input {
+        padding: 6px 12px;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 3px;
+        font-weight: 500;
+        font-size: 0.85em;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        width: 100%;
+      }
+  
+      .submit-button input:hover {
+        background-color: var(--secondary-color);
+      }
+  
+      .back-link {
+        text-align: center;
+        margin-top: 6px;
+      }
+  
+      .back-link a {
+        display: inline-block;
+        padding: 6px 12px;
+        background-color: var(--primary-color);
+        color: white;
+        text-decoration: none;
+        border-radius: 3px;
+        font-weight: 500;
+        font-size: 0.85em;
+        transition: background-color 0.3s ease;
+        width: 100%;
+      }
+  
+      .back-link a:hover {
+        background-color: var(--secondary-color);
+      }
+  
+      @media (max-width: 768px) {
+        body {
+          padding: 3px;
+        }
+  
+        .container {
+          padding: 8px;
+          height: calc(100vh - 6px);
+        }
+  
+        h1 {
+          font-size: 1.2em;
+          margin-bottom: 6px;
+        }
+  
+        .form-group {
+          margin-bottom: 5px;
+        }
+  
+        .form-group label {
+          font-size: 0.8em;
+        }
+  
+        .form-group input,
+        .form-group textarea {
+          padding: 5px;
+          font-size: 0.75em;
+        }
+  
+        .form-group textarea {
+          resize: none;
+        }
+  
+        .days-container {
+          flex-direction: column;
+          gap: 5px;
+        }
+  
+        .days-division {
+          gap: 5px;
+        }
+  
+        .submit-button input,
+        .back-link a {
+          padding: 5px;
+          font-size: 0.8em;
+        }
+      }
+  
+      @media (max-height: 500px) {
+        .container {
+          padding: 5px;
+          transform: scale(0.9);
+          transform-origin: top;
+        }
+  
+        h1 {
+          font-size: 1em;
+          margin-bottom: 4px;
+        }
+  
+        .form-group {
+          margin-bottom: 4px;
+        }
+  
+        .form-group label {
+          font-size: 0.75em;
+        }
+  
+        .form-group input,
+        .form-group textarea {
+          padding: 4px;
+          font-size: 0.7em;
+        }
+  
+        .form-group textarea {
+          resize: none;
+        }
+  
+        .days-container {
+          gap: 4px;
+        }
+  
+        .days-division {
+          gap: 4px;
+        }
+  
+        .submit-button,
+        .back-link {
+          margin-top: 4px;
+        }
+  
+        .submit-button input,
+        .back-link a {
+          padding: 4px;
+          font-size: 0.75em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Assign Workout Plan</h1>
+  
+      <form action="{{ url_for('assign_workout') }}" method="POST">
+        <div class="form-group">
+          <label for="member_email">Member Email:</label>
+          <input type="email" name="member_email" placeholder="e.g. john@example.com" required>
+        </div>
+  
+        <div class="days-container">
+          <div class="days-division">
+            {% for day in ['Monday', 'Tuesday', 'Wednesday'] %}
+              <div class="form-group">
+                <label for="{{ day }}">{{ day }}:</label>
+                <input type="text" name="schedule[{{ day }}]" placeholder="e.g. Chest & Triceps">
+              </div>
+            {% endfor %}
+          </div>
+          <div class="days-division">
+            {% for day in ['Thursday', 'Friday', 'Saturday', 'Sunday'] %}
+              <div class="form-group">
+                <label for="{{ day }}">{{ day }}:</label>
+                <input type="text" name="schedule[{{ day }}]" placeholder="e.g. Chest & Triceps">
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="notes">Additional Notes:</label>
+          <textarea name="notes" placeholder="Custom instructions..."></textarea>
+        </div>
+  
+        <div class="submit-button">
+          <input type="submit" value="Assign Workout">
+        </div>
+      </form>
+  
+      <div class="back-link">
+        <a href="{{ url_for('admin_dashboard') }}">← Back to Dashboard</a>
+      </div>
+    </div>
+  </body>
+  </html>

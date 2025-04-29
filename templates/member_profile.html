@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Profile | FitTrack</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>My Profile</h1>
+
+    {% if member %}
+      <div class="profile-card">
+        <p><strong>👤 Full Name:</strong> {{ member.name }}</p>
+        <p><strong>📧 Email:</strong> {{ member.email }}</p>
+        <p><strong>📱 Phone:</strong> {{ member.phone }}</p>
+        <p><strong>🎂 Date of Birth:</strong> {{ member.dob }}</p>
+        <p><strong>⚧️ Gender:</strong> {{ member.gender }}</p>
+        <p><strong>🆔 Member ID:</strong> {{ member._id }}</p>
+        <!-- Add more fields here if needed -->
+      </div>
+    {% else %}
+      <p>Profile data not available.</p>
+    {% endif %}
+
+    <p style="text-align: center; margin-top: 20px;">
+      <a href="{{ url_for('member_dashboard') }}">← Back to Dashboard</a>
+    </p>
+  </div>
+</body>
+</html>

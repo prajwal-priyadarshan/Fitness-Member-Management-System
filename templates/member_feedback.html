@@ -1,0 +1,314 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Feedback | FitTrack</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Send Us Your Feedback</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash-message {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('member_feedback') }}" method="POST">
+      <label for="subject">Subject:</label>
+      <input type="text" name="subject" required>
+
+      <label for="message">Message:</label>
+      <textarea name="message" rows="6" required></textarea>
+      <br>
+      <input type="submit" value="Submit Feedback" style="margin-top: 25px;">
+    </form>
+
+    <p style="text-align: center; margin-top: 20px;">
+      <a href="{{ url_for('member_dashboard') }}">← Back to Dashboard</a>
+    </p>
+  </div>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback | FitTrack</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    :root {
+      --primary-color:  rgba(71, 86, 84, 0.75);
+      --secondary-color:  rgba(71, 86, 84, 0.75);
+      --light-gray: #f5f7fa;
+      --border-color: #e1e5eb;
+      --text-color: #333;
+      --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      --success-color: #28a745;
+      --error-color: #dc3545;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.3;
+      background-color: #f9f9f9;
+      color: var(--text-color);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100vh;
+      overflow: hidden;
+      padding: 5px;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 800px;
+      height: calc(100vh - 10px);
+      background-color: white;
+      border-radius: 6px;
+      box-shadow: var(--shadow);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    h1 {
+      color: var(--primary-color);
+      font-weight: 600;
+      font-size: 1.4em;
+      text-align: center;
+      padding-bottom: 6px;
+      position: relative;
+      margin-bottom: 8px;
+    }
+
+    h1:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 2px;
+      background-color: var(--primary-color);
+      border-radius: 1px;
+    }
+
+    .flash-message {
+      padding: 8px;
+      margin-bottom: 8px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      text-align: center;
+    }
+
+    .flash-message.success {
+      background-color: var(--success-color);
+      color: white;
+    }
+
+    .flash-message.error {
+      background-color: var(--error-color);
+      color: white;
+    }
+
+    form {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      overflow: hidden;
+    }
+
+    label {
+      font-weight: 500;
+      font-size: 0.85em;
+      color: var(--text-color);
+      margin-bottom: 2px;
+    }
+
+    input[type="text"],
+    textarea {
+      padding: 6px;
+      border: 1px solid var(--border-color);
+      border-radius: 3px;
+      width: 100%;
+      font-size: 0.8em;
+      transition: border-color 0.3s ease;
+    }
+
+    textarea {
+      rows: 4;
+      resize: none;
+      flex: 1;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 3px rgba(52, 152, 219, 0.3);
+    }
+
+    input[type="submit"] {
+      padding: 6px 12px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 3px;
+      font-weight: 500;
+      font-size: 0.85em;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100%;
+      margin-top: 6px;
+    }
+
+    input[type="submit"]:hover {
+      background-color: var(--secondary-color);
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 6px;
+    }
+
+    .back-link a {
+      display: inline-block;
+      padding: 6px 12px;
+      background-color: var(--primary-color);
+      color: white;
+      text-decoration: none;
+      border-radius: 3px;
+      font-weight: 500;
+      font-size: 0.85em;
+      transition: background-color 0.3s ease;
+      width: 100%;
+    }
+
+    .back-link a:hover {
+      background-color: var(--secondary-color);
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 3px;
+      }
+
+      .container {
+        padding: 8px;
+        height: calc(100vh - 6px);
+      }
+
+      h1 {
+        font-size: 1.2em;
+        margin-bottom: 6px;
+      }
+
+      .flash-message {
+        font-size: 0.8em;
+        padding: 6px;
+        margin-bottom: 6px;
+      }
+
+      label {
+        font-size: 0.8em;
+      }
+
+      input[type="text"],
+      textarea {
+        padding: 5px;
+        font-size: 0.75em;
+      }
+
+      textarea {
+        rows: 3;
+      }
+
+      input[type="submit"],
+      .back-link a {
+        padding: 5px;
+        font-size: 0.8em;
+      }
+    }
+
+    @media (max-height: 500px) {
+      .container {
+        padding: 5px;
+        transform: scale(0.9);
+        transform-origin: top;
+      }
+
+      h1 {
+        font-size: 1em;
+        margin-bottom: 4px;
+      }
+
+      .flash-message {
+        font-size: 0.75em;
+        padding: 5px;
+        margin-bottom: 5px;
+      }
+
+      label {
+        font-size: 0.75em;
+      }
+
+      input[type="text"],
+      textarea {
+        padding: 4px;
+        font-size: 0.7em;
+      }
+
+      textarea {
+        rows: 2;
+      }
+
+      input[type="submit"],
+      .back-link a {
+        padding: 4px;
+        font-size: 0.75em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Send Us Your Feedback</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash-message {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('member_feedback') }}" method="POST">
+      <label for="subject">Subject:</label>
+      <input type="text" name="subject" required>
+
+      <label for="message">Message:</label>
+      <textarea name="message" required></textarea>
+
+      <input type="submit" value="Submit Feedback">
+    </form>
+
+    <div class="back-link">
+      <a href="{{ url_for('member_dashboard') }}">← Back to Dashboard</a>
+    </div>
+  </div>
+</body>
+</html>

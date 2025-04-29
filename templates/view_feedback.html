@@ -1,0 +1,263 @@
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Member Feedback | FitTrack Admin</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .container {
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+    }
+    th, td {
+      padding: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Member Feedback</h1>
+
+    {% if feedbacks %}
+    <table class="styled-table" border="1">
+      <thead>
+        <tr>
+          <th>Subject</th>
+          <th>Message</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for fb in feedbacks %}
+        <tr>
+          <td>{{ fb.subject }}</td>
+          <td>{{ fb.message }}</td>
+          <td>
+            {% if fb.timestamp %}
+              {{ fb.timestamp.strftime('%Y-%m-%d %H:%M') }}
+            {% else %}
+              —
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>No feedback submitted yet.</p>
+    {% endif %}
+
+    <p style="text-align: center; margin-top: 20px;">
+      <a href="{{ url_for('admin_dashboard') }}">← Back to Dashboard</a>
+    </p>
+  </div>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Member Feedback | FitTrack Admin</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    :root {
+      --primary-color: rgba(71, 86, 84, 0.75);
+      --secondary-color: rgba(71, 86, 84, 0.75);
+      --accent-color: rgba(71, 86, 84, 0.75);
+      --light-gray: #f5f7fa;
+      --border-color: #e1e5eb;
+      --text-color: #333;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: #f9f9f9;
+      color: var(--text-color);
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    h1 {
+      color: var(--primary-color);
+      margin-bottom: 30px;
+      font-weight: 600;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    h1:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background-color: var(--primary-color);
+      border-radius: 2px;
+    }
+
+    .styled-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 25px 0;
+      font-size: 0.9em;
+      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+      border: none;
+    }
+
+    .styled-table thead tr {
+      background-color: var(--primary-color);
+      color: white;
+      text-align: left;
+    }
+
+    .styled-table th {
+      padding: 15px 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-size: 0.85em;
+      text-align: left;
+    }
+
+    .styled-table td {
+      padding: 12px;
+      border-bottom: 1px solid var(--border-color);
+      text-align: left;
+    }
+
+    .styled-table tbody tr {
+      transition: background-color 0.3s ease;
+    }
+
+    .styled-table tbody tr:nth-of-type(even) {
+      background-color: var(--light-gray);
+    }
+
+    .styled-table tbody tr:hover {
+      background-color: rgba(52, 152, 219, 0.1);
+    }
+
+    .styled-table td:nth-child(2) {
+      max-width: 400px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .styled-table td:last-child {
+      color: #666;
+      font-size: 0.9em;
+    }
+
+    .no-feedback {
+      padding: 30px;
+      background-color: var(--light-gray);
+      border-radius: 6px;
+      text-align: center;
+      color: #777;
+      font-size: 1.1em;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 10px 20px;
+      background-color: var(--primary-color);
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      font-weight: 500;
+    }
+
+    .back-link:hover {
+      background-color: var(--secondary-color);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+
+      h1 {
+        font-size: 1.5em;
+      }
+
+      .styled-table {
+        display: block;
+        overflow-x: auto;
+      }
+
+      .styled-table th, 
+      .styled-table td {
+        padding: 8px;
+      }
+
+      .back-link {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Member Feedback</h1>
+
+    {% if feedbacks %}
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Subject</th>
+          <th>Message</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for fb in feedbacks %}
+        <tr>
+          <td>{{ fb.subject }}</td>
+          <td>{{ fb.message }}</td>
+          <td>
+            {% if fb.timestamp %}
+              {{ fb.timestamp.strftime('%Y-%m-%d %H:%M') }}
+            {% else %}
+              —
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="no-feedback">
+      <p>No feedback submitted yet.</p>
+    </div>
+    {% endif %}
+
+    <div style="text-align: center;">
+      <a href="{{ url_for('admin_dashboard') }}" class="back-link">← Back to Dashboard</a>
+    </div>
+  </div>
+</body>
+</html>

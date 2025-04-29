@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Equipment</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        .equipment-table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .equipment-table th,
+        .equipment-table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        form {
+            margin-top: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            display: inline-block;
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Manage Equipment</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <p style="color: {% if category == 'success' %}green{% else %}red{% endif %};">{{ message }}</p>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <h3>Equipment List</h3>
+        <table class="equipment-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Condition</th>
+                    <th>Added Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in equipment %}
+                <tr>
+                    <td>{{ e.name }}</td>
+                    <td>{{ e.quantity }}</td>
+                    <td>{{ e.condition }}</td>
+                    <td>{{ e.added_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 20px;">Add New Equipment</h3>
+        <form method="POST" action="{{ url_for('manage_equipment') }}">
+            <div class="form-group">
+                <label for="name">Equipment Name:</label>
+                <input type="text" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity:</label>
+                <input type="number" name="quantity" required>
+            </div>
+            <div class="form-group">
+                <label for="condition">Condition:</label>
+                <input type="text" name="condition" required>
+            </div>
+            <button type="submit">Add Equipment</button>
+            <p style="text-align: center; margin-top: 20px;">
+                <a href="{{ url_for('admin_dashboard') }}">← Back to Dashboard</a>
+            </p>
+        </form>
+    </div>
+</body>
+</html>

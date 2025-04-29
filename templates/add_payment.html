@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Payment</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h2 align="center">Add Payment</h2>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <p style="color: #2196F3;" align="center">{{ message }}</p>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('add_payment') }}" method="POST">
+      <label for="member_id">Member:</label>
+      <select name="member_id" required>
+        {% for member in members %}
+        <option value="{{ member._id }}">{{ member.name }} - {{ member.email }}</option>
+        {% endfor %}
+      </select>
+
+      <label for="amount">Amount (INR):</label>
+      <input type="number" name="amount" step="0.01" required>
+
+      <label for="payment_date">Payment Date:</label>
+      <input type="date" name="payment_date" required>
+
+      <label for="membership_type">Membership Type:</label>
+      <select name="membership_type" required>
+        <option value="Monthly">Monthly</option>
+        <option value="Quarterly">Quarterly</option>
+        <option value="Half-Yearly">Half-Yearly</option>
+        <option value="Yearly">Yearly</option>
+      </select>
+
+      <button type="submit">Add Payment</button>
+    </form>
+    <p style="text-align: center; margin-top: 20px;">
+      <a href="{{ url_for('admin_dashboard') }}">← Back to Dashboard</a>
+    </p>
+  </div>
+</body>
+</html>

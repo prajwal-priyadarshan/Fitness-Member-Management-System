@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard | FitTrack</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: white;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1000px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .header {
+      background-color: #333;
+      color: white;
+      padding: 15px 0;
+      text-align: center;
+      position: relative;
+    }
+    
+    .header h1 {
+      margin: 0;
+      font-size: 1.4rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+    
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: rgba(71, 86, 84, 0.75);
+    }
+    
+    .dashboard {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: repeat(3, auto);
+      gap: 0;
+    }
+    
+    .dashboard-section {
+      padding: 15px 20px;
+      border-bottom: 1px solid #eaeaea;
+      position: relative;
+    }
+    
+    .dashboard-section:nth-child(odd) {
+      border-right: 1px solid #eaeaea;
+    }
+    
+    .dashboard-section h3 {
+      color: #333;
+      font-size: 1rem;
+      margin-bottom: 10px;
+      font-weight: 600;
+      padding-bottom: 4px;
+      border-bottom: 2px solid;
+    }
+    
+    /* Color coding for section headers */
+    .dashboard-section:nth-child(1) h3 {
+      border-color: rgba(71, 86, 84, 0.75); /* Green */
+    }
+    
+    .dashboard-section:nth-child(2) h3 {
+      border-color:  rgba(71, 86, 84, 0.75); /* Blue */
+    }
+    
+    .dashboard-section:nth-child(3) h3 {
+      border-color:  rgba(71, 86, 84, 0.75); /* Amber */
+    }
+    
+    .dashboard-section:nth-child(4) h3 {
+      border-color:  rgba(71, 86, 84, 0.75); /* Pink */
+    }
+    
+    .dashboard-section:nth-child(5) h3 {
+      border-color:  rgba(71, 86, 84, 0.75); /* Purple */
+    }
+    
+    .dashboard-section:nth-child(6) h3 {
+      border-color: rgba(71, 86, 84, 0.75); /* Deep Orange */
+    }
+    
+    .dashboard-section ul {
+      list-style-type: none;
+      padding: 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    
+    .dashboard-section ul li a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: #444;
+      padding: 8px 12px;
+      background-color: #f5f5f5;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      transition: all 0.2s ease;
+    }
+    
+    .dashboard-section ul li a:hover {
+      background-color: #e0e0e0;
+      transform: translateY(-2px);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .logout {
+      text-align: center;
+      padding: 15px 0;
+      background-color: #f9f9f9;
+    }
+    
+    .logout a {
+      display: inline-block;
+      text-decoration: none;
+      color: white;
+      background-color: #ff5252;
+      padding: 8px 25px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: background-color 0.2s ease;
+    }
+    
+    .logout a:hover {
+      background-color: #e04747;
+    }
+    
+    /* Icons */
+    .icon {
+      display: inline-block;
+      width: 20px;
+      margin-right: 8px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 768px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+      
+      .dashboard-section:nth-child(odd) {
+        border-right: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>ADMIN DASHBOARD</h1>
+    </div>
+
+    <div class="dashboard">
+      <!-- Members Section -->
+      <div class="dashboard-section">
+        <h3>Manage Members</h3>
+        <ul>
+          <li><a href="{{ url_for('add_member') }}">➕ Add Member</a></li>
+          <li><a href="{{ url_for('update_member') }}">✏️ Update Member</a></li>
+          <li><a href="{{ url_for('delete_member') }}">🗑️ Delete Member</a></li>
+          <li><a href="{{ url_for('search_member') }}">🔍 Search Member</a></li>
+        </ul>
+      </div>
+
+      <!-- Plans Section -->
+      <div class="dashboard-section">
+        <h3>Workout & Diet Plans</h3>
+        <ul>
+          <li><a href="{{ url_for('assign_workout') }}">🏋️ Assign Workout</a></li>
+          <li><a href="{{ url_for('assign_diet') }}">🥗 Assign Diet</a></li>
+        </ul>
+      </div>
+
+      <!-- Payments Section -->
+      <div class="dashboard-section">
+        <h3>Memberships & Payments</h3>
+        <ul>
+          <li><a href="{{ url_for('add_payment') }}">💳 Add Payment</a></li>
+          <li><a href="{{ url_for('view_payment_history') }}">🧾 View Payment History</a></li>
+        </ul>
+      </div>
+
+      <!-- Equipment Section -->
+      <div class="dashboard-section">
+        <h3>Manage Equipment</h3>
+        <ul>
+        <li><a href="{{ url_for('manage_equipment') }}">🛠️ Add/Update Equipment</a></li>
+        <li><a href="{{ url_for('schedule_equipment') }}">📅 Schedule Equipment</a></li>
+      </ul>
+      </div>
+
+      <!-- Attendance Section -->
+      <div class="dashboard-section">
+        <h3>Attendance</h3>
+        <ul>
+          <li><a href="{{ url_for('attendance_report') }}">📊 Generate Attendance Report</a></li>
+          <li><a href="{{ url_for('admin_checkin_records') }}">Check-In Records</a></li>
+          <li><a href="{{ url_for('admin_checkout_records') }}">Check-Out Records</a></li>
+        </ul>
+      </div>
+
+      <!-- Emergency + Feedback -->
+      <div class="dashboard-section">
+        <h3>Other</h3>
+        <ul>
+          <li><a href="{{ url_for('admin_emergency_contact') }}">☎️ Emergency Contacts</a></li>
+          <li><a href="{{ url_for('view_feedback') }}">💬 View Feedback</a></li>
+        </ul>
+        </div>
+    </div>
+
+    <div class="logout">
+      <a href="{{ url_for('logout') }}">🔓 Logout</a>
+    </div>
+  </div>
+</body>
+</html>
